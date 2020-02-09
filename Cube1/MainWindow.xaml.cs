@@ -18,6 +18,7 @@ using System.Windows.Media.Animation;
 
 namespace Cube1
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -26,7 +27,26 @@ namespace Cube1
         public MainWindow()
         {
             InitializeComponent();
-            
+        }
+
+        public class Stage
+        {
+            public double Num { get; set; }
+            public double Width { get; set; }
+            public double Height { get; set; }
+        }
+
+        List<Stage> stages = new List<Stage>();
+
+        public void SimpleDataGridSample()
+        {
+            InitializeComponent();
+                        
+            stages.Add(new Stage() { Num = 1, Width = 0.6, Height = 0.1 });
+            stages.Add(new Stage() { Num = 2, Width = 0.8, Height = 0.2 });
+            stages.Add(new Stage() { Num = 3, Width = 0.6, Height = 0.1 });
+
+            dgDims.ItemsSource = stages;
         }
 
         // Core dimensions
@@ -37,24 +57,24 @@ namespace Cube1
 
         Model3DGroup modelGroup = new Model3DGroup();
 
-        MeshGeometry3D MCentreLeg()
+        MeshGeometry3D MCentreLeg(double offsetZ)
         {
             MeshGeometry3D centreLeg = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
 
-            corners.Add(new Point3D(0, YY/2, H));
-            corners.Add(new Point3D(MW/2, YY/2 - MW/2, H));
-            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), H));
-            corners.Add(new Point3D(0, -YY/2, H));
-            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), H));
-            corners.Add(new Point3D(-MW/2, YY/2 - MW/2, H));
+            corners.Add(new Point3D(0, YY/2, H + offsetZ));
+            corners.Add(new Point3D(MW/2, YY/2 - MW/2, H + offsetZ));
+            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), H + offsetZ));
+            corners.Add(new Point3D(0, -YY/2, H + offsetZ));
+            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), H + offsetZ));
+            corners.Add(new Point3D(-MW/2, YY/2 - MW/2, H + offsetZ));
 
-            corners.Add(new Point3D(0, YY/2, -H));
-            corners.Add(new Point3D(MW/2, YY/2 - MW/2, -H));
-            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), -H));
-            corners.Add(new Point3D(0, -YY/2, -H));
-            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), -H));
-            corners.Add(new Point3D(-MW/2, YY/2 - MW/2, -H));
+            corners.Add(new Point3D(0, YY/2, -H + offsetZ));
+            corners.Add(new Point3D(MW/2, YY/2 - MW/2, -H + offsetZ));
+            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), -H + offsetZ));
+            corners.Add(new Point3D(0, -YY/2, -H + offsetZ));
+            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), -H + offsetZ));
+            corners.Add(new Point3D(-MW/2, YY/2 - MW/2, -H + offsetZ));
             centreLeg.Positions = corners;
             Int32[] indices ={
             //top
@@ -96,20 +116,20 @@ namespace Cube1
             return centreLeg;            
         }
 
-        MeshGeometry3D MLeftLeg()
+        MeshGeometry3D MLeftLeg(double offsetZ)
         {
             MeshGeometry3D leftLeg = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
 
-            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),H));
-            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),H));
+            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),H + offsetZ));
 
-            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,-H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,-H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),-H));
-            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),-H));
+            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,-H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,-H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),-H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),-H + offsetZ));
             leftLeg.Positions = corners;
             Int32[] indices ={
             //top
@@ -141,20 +161,20 @@ namespace Cube1
             return leftLeg;            
         }
 
-        MeshGeometry3D MRightLeg()
+        MeshGeometry3D MRightLeg(double offsetZ)
         {
             MeshGeometry3D rightLeg = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
 
-            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,H));
-            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,H));
-            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),H));
-            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),H));
+            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),H + offsetZ));
+            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),H + offsetZ));
 
-            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,-H));
-            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,-H));
-            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),-H));
-            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),-H));
+            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,-H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,-H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),-H + offsetZ));
+            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),-H + offsetZ));
             rightLeg.Positions = corners;
             Int32[] indices ={
             //top
@@ -186,26 +206,26 @@ namespace Cube1
             return rightLeg;            
         }
 
-        MeshGeometry3D MUpperYoke()
+        MeshGeometry3D MUpperYoke(double offsetZ)
         {
             MeshGeometry3D upperYoke = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
 
-            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,H));
-            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,H));
-            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,H));
-            corners.Add(new Point3D(MW/2, YY/2 - MW/2, H));
-            corners.Add(new Point3D(0, YY/2, H));
-            corners.Add(new Point3D(-MW/2, YY/2 - MW/2, H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,H));
+            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,H + offsetZ));
+            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,H + offsetZ));
+            corners.Add(new Point3D(MW/2, YY/2 - MW/2, H + offsetZ));
+            corners.Add(new Point3D(0, YY/2, H + offsetZ));
+            corners.Add(new Point3D(-MW/2, YY/2 - MW/2, H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,H + offsetZ));
             
-            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,-H));
-            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,-H));
-            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,-H));
-            corners.Add(new Point3D(MW/2, YY/2 - MW/2, -H));
-            corners.Add(new Point3D(0, YY/2, -H));
-            corners.Add(new Point3D(-MW/2, YY/2 - MW/2,- H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,-H));
+            corners.Add(new Point3D(-(LL/2 + MW/2),YY/2 + MW/2,-H + offsetZ));
+            corners.Add(new Point3D((LL/2 + MW/2),YY/2 + MW/2,-H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),YY/2 - MW/2,-H + offsetZ));
+            corners.Add(new Point3D(MW/2, YY/2 - MW/2, -H + offsetZ));
+            corners.Add(new Point3D(0, YY/2, -H + offsetZ));
+            corners.Add(new Point3D(-MW/2, YY/2 - MW/2,- H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),YY/2 - MW/2,-H + offsetZ));
             upperYoke.Positions = corners;
             Int32[] indices ={
             //top
@@ -252,26 +272,26 @@ namespace Cube1
             return upperYoke;            
         }
 
-        MeshGeometry3D MBottomYoke()
+        MeshGeometry3D MBottomYoke(double offsetZ)
         {
             MeshGeometry3D bottomYoke = new MeshGeometry3D();
             Point3DCollection corners = new Point3DCollection();
 
-            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),H));
-            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),H));
-            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),H));
-            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), H));
-            corners.Add(new Point3D(0, -YY/2, H));
-            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),H));
+            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),H + offsetZ));
+            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),H + offsetZ));
+            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), H + offsetZ));
+            corners.Add(new Point3D(0, -YY/2, H + offsetZ));
+            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),H + offsetZ));
             
-            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),-H));
-            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),-H));
-            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),-H));
-            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), -H));
-            corners.Add(new Point3D(0, -YY/2, -H));
-            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), -H));
-            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),-H));
+            corners.Add(new Point3D(-(LL/2 + MW/2),-(YY/2 + MW/2),-H + offsetZ));
+            corners.Add(new Point3D((LL/2 + MW/2),-(YY/2 + MW/2),-H + offsetZ));
+            corners.Add(new Point3D((LL/2 - MW/2),-(YY/2 - MW/2),-H + offsetZ));
+            corners.Add(new Point3D(MW/2, -(YY/2 - MW/2), -H + offsetZ));
+            corners.Add(new Point3D(0, -YY/2, -H + offsetZ));
+            corners.Add(new Point3D(-MW/2, -(YY/2 - MW/2), -H + offsetZ));
+            corners.Add(new Point3D(-(LL/2 - MW/2),-(YY/2 - MW/2),-H + offsetZ));
             bottomYoke.Positions = corners;
             Int32[] indices ={
             //top
@@ -363,6 +383,8 @@ namespace Cube1
 
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            SimpleDataGridSample();
+
             //GeometryModel3D CentreLeg1 = new GeometryModel3D();
             //MeshGeometry3D centreLegMesh = MCentreLeg();
             //CentreLeg1.Geometry = centreLegMesh;
@@ -386,7 +408,7 @@ namespace Cube1
             //UpperYoke1.Geometry = upperYokeMesh;
             //UpperYoke1.Material = new DiffuseMaterial(
             //   new SolidColorBrush(Colors.Red));
-            
+
             //GeometryModel3D BottomYoke1 = new GeometryModel3D();
             //MeshGeometry3D bottomYokeMesh = MBottomYoke();
             //BottomYoke1.Geometry = bottomYokeMesh;
@@ -433,7 +455,7 @@ namespace Cube1
             //AxisAngleRotation3D axis = new AxisAngleRotation3D(
             //      new Vector3D(0, 1, 0), 0);
             //RotateTransform3D Rotate = new RotateTransform3D(axis);
-            ////CentreLeg1.Transform = Rotate;
+            ////CentreLeg.Transform = Rotate;
             //modelGroup.Transform = Rotate;
             //DoubleAnimation RotAngle = new DoubleAnimation();
             //RotAngle.From = 0;
@@ -465,43 +487,70 @@ namespace Cube1
             MW = double.Parse(txtMatWidth.Text, CultureInfo.InvariantCulture);
             H = double.Parse(txtHeight.Text, CultureInfo.InvariantCulture);
 
-            GeometryModel3D CentreLeg1 = new GeometryModel3D();
-            MeshGeometry3D centreLegMesh = MCentreLeg();
-            CentreLeg1.Geometry = centreLegMesh;
-            CentreLeg1.Material = new DiffuseMaterial(
-               new SolidColorBrush(Colors.SteelBlue));
+            int numStgs = int.Parse(txtStages.Text);
+            GeometryModel3D[] CentreLeg = new GeometryModel3D[numStgs];
+            MeshGeometry3D[] centreLegMesh = new MeshGeometry3D[numStgs];            
+            GeometryModel3D[] LeftLeg = new GeometryModel3D[numStgs];
+            MeshGeometry3D[] leftLegMesh = new MeshGeometry3D[numStgs]; 
+            GeometryModel3D[] RightLeg = new GeometryModel3D[numStgs];
+            MeshGeometry3D[] rightLegMesh = new MeshGeometry3D[numStgs]; 
+            GeometryModel3D[] UpperYoke = new GeometryModel3D[numStgs];
+            MeshGeometry3D[] upperYokeMesh = new MeshGeometry3D[numStgs]; 
+            GeometryModel3D[] BottomYoke = new GeometryModel3D[numStgs];
+            MeshGeometry3D[] bottomYokeMesh = new MeshGeometry3D[numStgs]; 
 
-            GeometryModel3D LeftLeg1 = new GeometryModel3D();
-            MeshGeometry3D leftLegMesh = MLeftLeg();
-            LeftLeg1.Geometry = leftLegMesh;
-            LeftLeg1.Material = new DiffuseMaterial(
-               new SolidColorBrush(Colors.SteelBlue));
+            double offsetZ = 0;
+            
+            for (int i = 0; i < numStgs; i++)
+            {
+                MW = stages[i].Width;
+                H = stages[i].Height;
+                
+                if (i > 0)
+                {
+                    offsetZ = offsetZ + (stages[i-1].Height + stages[i].Height);
+                }
+                centreLegMesh[i] = MCentreLeg(offsetZ);
+                CentreLeg[i] = new GeometryModel3D();                
+                CentreLeg[i].Geometry = centreLegMesh[i];
+                CentreLeg[i].Material = new DiffuseMaterial(
+                   new SolidColorBrush(Colors.SteelBlue));
+            
+                leftLegMesh[i] = MLeftLeg(offsetZ);
+                LeftLeg[i] = new GeometryModel3D();
+                LeftLeg[i].Geometry = leftLegMesh[i];
+                LeftLeg[i].Material = new DiffuseMaterial(
+                   new SolidColorBrush(Colors.SteelBlue));
 
-            GeometryModel3D RightLeg1 = new GeometryModel3D();
-            MeshGeometry3D rightLegMesh = MRightLeg();
-            RightLeg1.Geometry = rightLegMesh;
-            RightLeg1.Material = new DiffuseMaterial(
-               new SolidColorBrush(Colors.SteelBlue));
+                rightLegMesh[i] = MRightLeg(offsetZ);
+                RightLeg[i] = new GeometryModel3D();
+                RightLeg[i].Geometry = rightLegMesh[i];
+                RightLeg[i].Material = new DiffuseMaterial(
+                   new SolidColorBrush(Colors.SteelBlue));
 
-            GeometryModel3D UpperYoke1 = new GeometryModel3D();
-            MeshGeometry3D upperYokeMesh = MUpperYoke();
-            UpperYoke1.Geometry = upperYokeMesh;
-            UpperYoke1.Material = new DiffuseMaterial(
-               new SolidColorBrush(Colors.Red));
+                upperYokeMesh[i] = MUpperYoke(offsetZ);
+                UpperYoke[i] = new GeometryModel3D();
+                UpperYoke[i].Geometry = upperYokeMesh[i];
+                UpperYoke[i].Material = new DiffuseMaterial(
+                   new SolidColorBrush(Colors.Red));
 
-            GeometryModel3D BottomYoke1 = new GeometryModel3D();
-            MeshGeometry3D bottomYokeMesh = MBottomYoke();
-            BottomYoke1.Geometry = bottomYokeMesh;
-            BottomYoke1.Material = new DiffuseMaterial(
-               new SolidColorBrush(Colors.Red));
+                bottomYokeMesh[i] = MBottomYoke(offsetZ);
+                BottomYoke[i] = new GeometryModel3D();
+                BottomYoke[i].Geometry = bottomYokeMesh[i];
+                BottomYoke[i].Material = new DiffuseMaterial(
+                   new SolidColorBrush(Colors.Red));
+            }
 
             DirectionalLight DirLight1 = new DirectionalLight();
             DirLight1.Color = Colors.White;
             DirLight1.Direction = new Vector3D(-1, -1, -1);
 
-            //DirectionalLight DirLight2 = new DirectionalLight();
-            //DirLight2.Color = Colors.White;
-            //DirLight2.Direction = new Vector3D(1, 1, 1);
+            AmbientLight AmbiLight1 = new AmbientLight();
+            AmbiLight1.Color = Colors.White;
+            
+            DirectionalLight DirLight2 = new DirectionalLight();
+            DirLight2.Color = Colors.White;
+            DirLight2.Direction = new Vector3D(1, 1, 1);
 
             PerspectiveCamera Camera1 = new PerspectiveCamera();
             Camera1.FarPlaneDistance = 20;
@@ -511,14 +560,23 @@ namespace Cube1
             Camera1.LookDirection = new Vector3D(-2, -2, -3);
             Camera1.UpDirection = new Vector3D(0, 1, 0);
 
-//            Model3DGroup modelGroup = new Model3DGroup();
             modelGroup.Children.Clear();
-            if ((bool)chkCL.IsChecked) { modelGroup.Children.Add(CentreLeg1); }
-            if ((bool)chkLL.IsChecked) { modelGroup.Children.Add(LeftLeg1); }
-            if ((bool)chkRL.IsChecked) { modelGroup.Children.Add(RightLeg1); }
-            if ((bool)chkTY.IsChecked) { modelGroup.Children.Add(UpperYoke1); }
-            if ((bool)chkBY.IsChecked) { modelGroup.Children.Add(BottomYoke1); }
+            for (int i = 0; i < numStgs; i++)
+            {
+                if ((bool)chkCL.IsChecked)
+                {       modelGroup.Children.Add(CentreLeg[i]);                }
+                if ((bool)chkLL.IsChecked) 
+                {       modelGroup.Children.Add(LeftLeg[i]);                 }
+                if ((bool)chkRL.IsChecked) 
+                {       modelGroup.Children.Add(RightLeg[i]);                 }
+                if ((bool)chkTY.IsChecked)
+                {       modelGroup.Children.Add(UpperYoke[i]);                 }
+                if ((bool)chkBY.IsChecked)
+                {       modelGroup.Children.Add(BottomYoke[i]);                 }
+            }
+
             modelGroup.Children.Add(DirLight1);
+            modelGroup.Children.Add(DirLight2);
             ModelVisual3D modelsVisual = new ModelVisual3D();
             modelsVisual.Content = modelGroup;
 
@@ -536,7 +594,7 @@ namespace Cube1
             AxisAngleRotation3D axis = new AxisAngleRotation3D(
                   new Vector3D(0, 1, 0), 0);
             RotateTransform3D Rotate = new RotateTransform3D(axis);
-            //CentreLeg1.Transform = Rotate;
+            //CentreLeg.Transform = Rotate;
             modelGroup.Transform = Rotate;
             DoubleAnimation RotAngle = new DoubleAnimation();
             RotAngle.From = 0;
@@ -554,6 +612,18 @@ namespace Cube1
             Storyboard RotCube = new Storyboard();
             RotCube.Children.Add(RotAngle);
             RotCube.Begin(Canvas1);
+        }
+
+        private void btnUpdStgs_Click(object sender, RoutedEventArgs e)
+        {
+            stages.Clear();
+
+            for (int i = 0; i < int.Parse(txtStages.Text); i++)
+            {
+                stages.Add(new Stage() { Num = i+1, Width = 0.6, Height = 0.1 });
+            }
+            
+            dgDims.Items.Refresh();
         }
     }
 
